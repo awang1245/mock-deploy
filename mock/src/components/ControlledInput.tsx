@@ -7,8 +7,6 @@ interface ControlledInputProps {
   ariaLabel: string;
 }
 
-// Input boxes contain state. We want to make sure React is managing that state,
-//   so we have a special component that wraps the input box.
 export function ControlledInput({
   value,
   setValue,

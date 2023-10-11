@@ -5,11 +5,10 @@ import { REPLInput } from "./REPLInput";
 
 export default function REPL() {
   const [history, setHistory] = useState<string[]>([]);
-  const [mode, setMode] = useState<string>("brief"); // Track the current mode (brief or verbose)
+  const [mode, setMode] = useState<string>("brief");
 
   return (
     <div className="repl">
-      {/* This is where your REPLHistory might go... */}
       <REPLHistory history={history} mode={mode} />
       <hr />
       <REPLInput

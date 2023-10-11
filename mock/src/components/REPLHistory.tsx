@@ -1,18 +1,19 @@
 import "../styles/main.css";
 
 interface REPLHistoryProps {
-  // TODO: Fill with some shared state tracking all the pushed commands
-  // CHANGED
   history: string[];
+  mode: string;
 }
+
 export function REPLHistory(props: REPLHistoryProps) {
   return (
     <div className="repl-history">
-      {/* This is where command history will go */}
-      {/* TODO: To go through all the pushed commands... try the .map() function! */}
-      {/* CHANGED */}
       {props.history.map((command, index) => (
-        <p>{command}</p>
+        <p key={index}>
+          {props.mode === "verbose" && <span>Command: {command}</span>}
+          <br />
+          Output: {command}
+        </p>
       ))}
     </div>
   );

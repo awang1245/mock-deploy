@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Dispatch, SetStateAction } from "react";
 import { ControlledInput } from "./ControlledInput";
 import { datasets } from "./mockedJson";
-import ReactDOMServer from "react-dom/server";
 import { History } from "./REPL";
 
 interface REPLInputProps {
@@ -10,8 +9,8 @@ interface REPLInputProps {
   setHistory: Dispatch<SetStateAction<History[]>>;
   mode: string;
   setMode: Dispatch<SetStateAction<string>>;
-  setCurrentDataset: Dispatch<SetStateAction<string[][]>>;
   currentDataset: string[][];
+  setCurrentDataset: Dispatch<SetStateAction<string[][]>>;
 }
 
 export function REPLInput(props: REPLInputProps) {

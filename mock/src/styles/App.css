@@ -1,14 +1,28 @@
 .App {
   text-align: center;
+  background: rgb(238, 174, 202);
+  background: rgb(238, 174, 202);
+  background: linear-gradient(
+    160deg,
+    rgba(238, 174, 202, 1) 0%,
+    rgba(181, 209, 218, 1) 36%,
+    rgba(172, 188, 222, 1) 49%,
+    rgba(163, 165, 226, 1) 60%,
+    rgba(148, 187, 233, 1) 100%
+  );
 }
 
 .App-header {
-  background-color: #282c34;
-  min-height: 8vh;
+  min-height: 90px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(1px + 2vmin);
-  color: white;
+  font-size: 14px;
+  font-family: "ivymode", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  color: #3d3f6c;
+  border: none;
+  margin: 0px;
 }

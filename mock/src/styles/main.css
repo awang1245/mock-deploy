@@ -6,27 +6,69 @@
 
 .repl {
   position: relative;
-  min-height: 95vh;
+  min-height: 200px;
 }
 
 .repl-history {
-  height: 55vh;
+  font-size: 16px;
+  font-weight: bold;
+  color: #3d3f6c;
   margin: auto;
+  margin-bottom: 40px;
+  border-radius: 30px;
+  border: none;
+  background: rgba(255, 255, 255, 0.5);
+  width: 90%;
+  max-height: 420px;
+  height: 420px;
   display: block;
   overflow: scroll;
+  padding: 20px;
 }
 
 .repl-input {
-  margin: auto;
-  height: 10vh;
+  margin: 0px;
+  height: 120px;
+  padding: 20px;
+  border: none;
+  background-color: white;
 }
+
+#command-instruct {
+  color: #3d3f6c;
+  font-family: "ivymode", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+  font-size: 18px;
+}
+
 .repl-command-box {
-  width: 100%;
+  font-size: 16px;
+  width: 1070px;
   margin: auto;
   display: block;
+  height: 60px;
+  border-radius: 15px;
+  border: none;
+  padding-left: 30px;
+}
+
+.input-button-flex {
+  display: flex;
+  margin-top: 10px;
+  flex-flow: row wrap;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 
 button {
-  margin: auto;
+  font-size: 16px;
+  margin: 10px;
   display: block;
+  width: 200px;
+  height: 60px;
+  border-radius: 15px;
+  border: none;
+  background-color: #3d3f6c;
+  color: white;
 }

@@ -42,15 +42,16 @@ export function REPLInput(props: REPLInputProps) {
             ))}
           </tr>
         ));
-        props.setHistory([
-          ...props.history,
-          ReactDOMServer.renderToString(<table>{tableRows}</table>),
-        ]);
+        props.setHistory([...props.history, <table>{tableRows}</table>]);
+        // props.setHistory([
+        //   ...props.history,
+        //   ReactDOMServer.renderToString(<table>{tableRows}</table>),
+        // ]);
       } else {
         props.setHistory([...props.history, "Error: No dataset loaded."]);
       }
     } else if (command === "search") {
-      // Implement search functionality here
+      //search
     } else if (command === "mode") {
       const newMode = args[0];
       if (newMode === "brief" || newMode === "verbose") {

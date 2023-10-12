@@ -11,8 +11,8 @@ interface REPLInputProps {
   setHistory: Dispatch<SetStateAction<History[]>>;
   mode: string;
   setMode: Dispatch<SetStateAction<string>>;
-  currentDataset: string[][];
   setCurrentDataset: Dispatch<SetStateAction<string[][]>>;
+  currentDataset: string[][];
 }
 
 export function REPLInput(props: REPLInputProps) {
@@ -22,6 +22,7 @@ export function REPLInput(props: REPLInputProps) {
     const [command, ...args] = commandString.split(" ");
     const query = args.join(" ");
     const filePath = query;
+
     if (command === "load") {
       if (datasets[filePath]) {
         props.setCurrentDataset(datasets[filePath]);
@@ -54,22 +55,22 @@ export function REPLInput(props: REPLInputProps) {
         ]);
       }
     } else if (command === "search") {
-      if (props.currentDataset.length > 0) {
+      if (props.currentDataset == datasets[filePath]) {
         if (
           Object.keys(searchPeopleSet).indexOf(query) != -1 ||
           Object.keys(searchMovieSet).indexOf(query) != -1
         ) {
-          const result = searchPeopleSet[query];
+          const result = searchPeopleSet[query] || searchMovieSet[query];
           props.setHistory([
             ...props.history,
             { command: commandString, dataset: result },
           ]);
-        } else {
-          props.setHistory([
-            ...props.history,
-            { command: commandString, message: "Error: No dataset loaded." },
-          ]);
         }
+      } else {
+        props.setHistory([
+          ...props.history,
+          { command: commandString, message: "Error: No dataset loaded." },
+        ]);
       }
     } else if (command === "mode") {
       const newMode = query;

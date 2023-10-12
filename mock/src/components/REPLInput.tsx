@@ -20,9 +20,10 @@ export function REPLInput(props: REPLInputProps) {
 
   function handleSubmit(commandString: string) {
     const [command, ...args] = commandString.split(" ");
+    const query = args.join(" ");
+    const filePath = query;
 
     if (command === "load") {
-      const filePath = args[0];
       if (datasets[filePath]) {
         props.setCurrentDataset(datasets[filePath]);
         props.setHistory([
@@ -42,7 +43,7 @@ export function REPLInput(props: REPLInputProps) {
         ]);
       }
     } else if (command === "view") {
-      if (props.currentDataset.length > 0) {
+      if (props.currentDataset == datasets[filePath]) {
         props.setHistory([
           ...props.history,
           { command: commandString, dataset: props.currentDataset },
@@ -55,7 +56,6 @@ export function REPLInput(props: REPLInputProps) {
       }
     } else if (command === "search") {
       if (props.currentDataset.length > 0) {
-        const query = args[0];
         if (searchPeopleSet.has(query)) {
           const result = searchPeopleSet.get(query);
           props.setHistory([

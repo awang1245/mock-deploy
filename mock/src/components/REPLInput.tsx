@@ -55,16 +55,17 @@ export function REPLInput(props: REPLInputProps) {
         ]);
       }
     } else if (command === "search") {
-      if (props.currentDataset == datasets[filePath]) {
+      if (props.currentDataset.length > 0) {
         if (
           Object.keys(searchPeopleSet).indexOf(query) != -1 ||
           Object.keys(searchMovieSet).indexOf(query) != -1
         ) {
           const result = searchPeopleSet[query] || searchMovieSet[query];
-          props.setHistory([
-            ...props.history,
-            { command: commandString, dataset: result },
-          ]);
+          if (result)
+            props.setHistory([
+              ...props.history,
+              { command: commandString, dataset: result },
+            ]);
         }
       } else {
         props.setHistory([

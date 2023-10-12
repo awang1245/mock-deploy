@@ -8,7 +8,11 @@ function App() {
   return (
     <div className="App">
       <p className="App-header">
-        <h1>Mock</h1>
+        <link
+          rel="stylesheet"
+          href="https://use.typekit.net/swv5ywc.css"
+        ></link>
+        <h1>Hi! Welcome to Mock</h1>
       </p>
       <REPL />
     </div>

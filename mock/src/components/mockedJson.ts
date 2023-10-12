@@ -16,17 +16,20 @@ export const datasets: { [key: string]: string[][] } = {
   ],
 };
 
-export const searchPeopleSet: { [key: string]: string[][] } = {
-  "Name Bob": [["Bob", "30", "Chicago"]],
-  "Name Alice": [["Alice", "25", "New York"]],
-  "Age 35": [["Charlie", "35", "Los Angeles"]],
-  "Age 26": [["Percy", "26", "New York"]],
-  "City New York": [
-    ["Alice", "25", "New York"],
-    ["Percy", "26", "New York"],
+export const searchPeopleSet = new Map([
+  ["Name Bob", [["Bob", "30", "Chicago"]]],
+  ["Name Alice", [["Alice", "25", "New York"]]],
+  ["Age 35", [["Charlie", "35", "Los Angeles"]]],
+  ["Age 26", [["Percy", "26", "New York"]]],
+  [
+    "City New York",
+    [
+      ["Alice", "25", "New York"],
+      ["Percy", "26", "New York"],
+    ],
   ],
-  "City Chicago": [["Bob", "30", "Chicago"]],
-};
+  ["City Chicago", [["Bob", "30", "Chicago"]]],
+]);
 
 export const searchMovieSet: { [key: string]: string[][] } = {
   "Title Your Name": [["Your Name", "2017", "Makoto Shinkai"]],

@@ -20,9 +20,10 @@ export function REPLInput(props: REPLInputProps) {
 
   function handleSubmit(commandString: string) {
     const [command, ...args] = commandString.split(" ");
+    const query = args.join(" ");
 
     if (command === "load") {
-      const filePath = args[0];
+      const filePath = query;
       if (datasets[filePath]) {
         props.setCurrentDataset(datasets[filePath]);
         props.setHistory([
@@ -55,28 +56,24 @@ export function REPLInput(props: REPLInputProps) {
       }
     } else if (command === "search") {
       if (props.currentDataset.length > 0) {
-        const query = args[0];
-        if (searchPeopleSet.has(query)) {
-          const result = searchPeopleSet.get(query);
+        if (
+          Object.keys(searchPeopleSet).indexOf(query) != -1 ||
+          Object.keys(searchMovieSet).indexOf(query) != -1
+        ) {
+          const result = searchPeopleSet[query];
           props.setHistory([
             ...props.history,
             { command: commandString, dataset: result },
           ]);
-        } else if (Object.keys(searchMovieSet).indexOf(query) != -1) {
-          const result = searchMovieSet[query];
+        } else {
           props.setHistory([
             ...props.history,
-            { command: commandString, dataset: result },
+            { command: commandString, message: "Error: No dataset loaded." },
           ]);
         }
-      } else {
-        props.setHistory([
-          ...props.history,
-          { command: commandString, message: "Error: No dataset loaded." },
-        ]);
       }
     } else if (command === "mode") {
-      const newMode = args[0];
+      const newMode = query;
       if (newMode === "brief" || newMode === "verbose") {
         props.setMode(newMode);
         props.setHistory([

@@ -82,6 +82,14 @@ export function REPLInput(props: REPLInputProps) {
               message: "Error: Please indicate the column and value to search",
             },
           ]);
+        } else {
+          props.setHistory([
+            ...props.history,
+            {
+              command: commandString,
+              message: "Error: No search results matches the search value",
+            },
+          ]);
         }
       } else {
         props.setHistory([

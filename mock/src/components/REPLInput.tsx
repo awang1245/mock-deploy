@@ -48,6 +48,14 @@ export function REPLInput(props: REPLInputProps) {
           ...props.history,
           { command: commandString, dataset: props.currentDataset },
         ]);
+      } else if (args.length === 0) {
+        props.setHistory([
+          ...props.history,
+          {
+            command: commandString,
+            message: "Error: Please specify the dataset to view.",
+          },
+        ]);
       } else {
         props.setHistory([
           ...props.history,
@@ -66,6 +74,14 @@ export function REPLInput(props: REPLInputProps) {
               ...props.history,
               { command: commandString, dataset: result },
             ]);
+        } else if (args.length === 0) {
+          props.setHistory([
+            ...props.history,
+            {
+              command: commandString,
+              message: "Error: Please indicate the column and value to search",
+            },
+          ]);
         }
       } else {
         props.setHistory([

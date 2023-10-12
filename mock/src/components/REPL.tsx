@@ -6,8 +6,8 @@ import { datasets } from "./mockedJson";
 
 export interface History {
   command: string;
-  message?: string;
   //? means optional value
+  message?: string;
   dataset?: string[][];
 }
 

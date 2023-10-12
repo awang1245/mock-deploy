@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Dispatch, SetStateAction } from "react";
 import { ControlledInput } from "./ControlledInput";
 import { datasets } from "./mockedJson";
+import { searchPeopleSet } from "./mockedJson";
+import { searchMovieSet } from "./mockedJson";
 import { History } from "./REPL";
 
 interface REPLInputProps {
@@ -52,7 +54,27 @@ export function REPLInput(props: REPLInputProps) {
         ]);
       }
     } else if (command === "search") {
-      //search
+      if (props.currentDataset.length > 0) {
+        const query = args[0];
+        if (searchPeopleSet.has(query)) {
+          const result = searchPeopleSet.get(query);
+          props.setHistory([
+            ...props.history,
+            { command: commandString, dataset: result },
+          ]);
+        } else if (Object.keys(searchMovieSet).indexOf(query) != -1) {
+          const result = searchMovieSet[query];
+          props.setHistory([
+            ...props.history,
+            { command: commandString, dataset: result },
+          ]);
+        }
+      } else {
+        props.setHistory([
+          ...props.history,
+          { command: commandString, message: "Error: No dataset loaded." },
+        ]);
+      }
     } else if (command === "mode") {
       const newMode = args[0];
       if (newMode === "brief" || newMode === "verbose") {

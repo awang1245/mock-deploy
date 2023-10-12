@@ -26,12 +26,6 @@
   display: block;
 }
 
-.buttons-flex {
-  display: flex;
-  align-items: flex-end;
-  padding-top: 30px;
-}
-
 button {
   margin: auto;
   display: block;

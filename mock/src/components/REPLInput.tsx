@@ -1,5 +1,5 @@
-import "../styles/main.css";
-import { Dispatch, SetStateAction, useState } from "react";
+import React, { useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { ControlledInput } from "./ControlledInput";
 
 interface REPLInputProps {
@@ -13,15 +13,25 @@ export function REPLInput(props: REPLInputProps) {
   const [commandString, setCommandString] = useState<string>("");
 
   function handleSubmit(commandString: string) {
-    // Add command to history based on mode (brief or verbose)
-    if (props.mode === "verbose") {
-      props.setHistory([
-        ...props.history,
-        `Command: ${commandString}`,
-        `Output: ${commandString}`,
-      ]);
+    const [command, ...args] = commandString.split(" ");
+
+    if (command === "load_file") {
+      // load code
+    } else if (command === "view") {
+      // view code
+    } else if (command === "mode") {
+      const newMode = args[0];
+      if (newMode === "brief" || newMode === "verbose") {
+        props.setMode(newMode);
+        props.setHistory([...props.history, `Mode set to: ${newMode}`]);
+      } else {
+        props.setHistory([
+          ...props.history,
+          "Error: Invalid mode. Available modes are 'brief' and 'verbose'.",
+        ]);
+      }
     } else {
-      props.setHistory([...props.history, commandString]);
+      props.setHistory([...props.history, "Error: Invalid command."]);
     }
 
     setCommandString("");
@@ -38,16 +48,12 @@ export function REPLInput(props: REPLInputProps) {
         />
       </fieldset>
       {/* Add mode buttons */}
-      <div className="buttons-flex">
-        <button
-          className="submit-button"
-          onClick={() => handleSubmit(commandString)}
-        >
-          Submitted {props.mode === "verbose" ? "Verbosely" : "Briefly"}
-        </button>
-        <button onClick={() => props.setMode("brief")}>Brief Mode</button>
-        <button onClick={() => props.setMode("verbose")}>Verbose Mode</button>
-      </div>
+      <button
+        className="submit-button"
+        onClick={() => handleSubmit(commandString)}
+      >
+        Submitted {props.mode === "verbose" ? "Verbosely" : "Briefly"}
+      </button>
     </div>
   );
 }

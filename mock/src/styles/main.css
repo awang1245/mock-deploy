@@ -1,15 +1,10 @@
-/*
-  This is a reasonable starting point for the CSS in Mock.
-  Positioning in CSS can sometimes be annoying to manage, so we've opted to 
-  give you this starter CSS. Feel free to modify it as you wish, though.
-*/
-
 .repl {
   position: relative;
   min-height: 200px;
 }
 
 .repl-history {
+  text-align: center;
   font-size: 16px;
   font-weight: bold;
   color: #3d3f6c;
@@ -18,20 +13,43 @@
   border-radius: 30px;
   border: none;
   background: rgba(255, 255, 255, 0.5);
-  width: 90%;
-  max-height: 420px;
-  height: 420px;
-  display: block;
+  width: 78%;
+  max-height: 490px;
+  height: 490px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
   overflow: scroll;
-  padding: 20px;
+  padding-bottom: 10px;
+}
+
+.repl-history:hover {
+  transform: scale(1.01);
+  transition: 0.3s;
 }
 
 .repl-input {
   margin: 0px;
-  height: 120px;
-  padding: 20px;
+  height: 110px;
+  padding-top: 10px;
   border: none;
   background-color: white;
+}
+
+input[type="text"] {
+  background-color: #e3f1ff;
+}
+
+input::placeholder {
+  color: #3d3f6c;
+  font-weight: bold;
+}
+
+input:hover {
+  transform: scale(1.01);
+  transition: 0.3s;
+  background-color: #cce3fd;
 }
 
 #command-instruct {
@@ -40,35 +58,63 @@
   font-weight: 700;
   font-style: normal;
   font-size: 18px;
+  margin-left: 160px;
 }
 
 .repl-command-box {
+  color: #3d3f6c;
+  font-weight: bold;
   font-size: 16px;
-  width: 1070px;
-  margin: auto;
+  width: 860px;
   display: block;
-  height: 60px;
+  height: 49px;
   border-radius: 15px;
-  border: none;
+  border-width: 2px;
+  border-color: #3d3f6c;
   padding-left: 30px;
 }
 
 .input-button-flex {
   display: flex;
-  margin-top: 10px;
   flex-flow: row wrap;
-  padding-left: 20px;
-  padding-right: 20px;
+  justify-content: center;
+  align-items: center;
+  padding-left: 95px;
+  padding-right: 100px;
+  padding-top: 10px;
+}
+
+table,
+td {
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+  height: 30px;
+  width: 170px;
+  max-width: 900px;
+  padding-left: 10px;
+  text-align: left;
+  vertical-align: middle;
+  overflow-x: auto;
+}
+
+tr:hover {
+  background-color: #e0efff;
 }
 
 button {
-  font-size: 16px;
-  margin: 10px;
+  font-size: 15px;
+  font-weight: bolder;
+  margin-left: 20px;
   display: block;
   width: 200px;
-  height: 60px;
+  height: 55px;
   border-radius: 15px;
   border: none;
   background-color: #3d3f6c;
   color: white;
+}
+
+button:hover {
+  transform: scale(1.05);
+  transition: 0.3s;
 }

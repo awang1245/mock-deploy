@@ -4,8 +4,15 @@ import { REPLHistory } from "./REPLHistory";
 import { REPLInput } from "./REPLInput";
 import { datasets } from "./mockedJson";
 
+export interface History {
+  command: string;
+  message?: string;
+  //? means optional value
+  dataset?: string[][];
+}
+
 export default function REPL() {
-  const [history, setHistory] = useState<string[]>([]);
+  const [history, setHistory] = useState<History[]>([]);
   const [mode, setMode] = useState<string>("brief");
   const [currentDataset, setCurrentDataset] = useState<string[][]>([]);
 

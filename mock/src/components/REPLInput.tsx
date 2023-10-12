@@ -3,10 +3,11 @@ import { Dispatch, SetStateAction } from "react";
 import { ControlledInput } from "./ControlledInput";
 import { datasets } from "./mockedJson";
 import ReactDOMServer from "react-dom/server";
+import { History } from "./REPL";
 
 interface REPLInputProps {
-  history: string[];
-  setHistory: Dispatch<SetStateAction<string[]>>;
+  history: History[];
+  setHistory: Dispatch<SetStateAction<History[]>>;
   mode: string;
   setMode: Dispatch<SetStateAction<string>>;
   setCurrentDataset: Dispatch<SetStateAction<string[][]>>;
@@ -25,29 +26,31 @@ export function REPLInput(props: REPLInputProps) {
         props.setCurrentDataset(datasets[filePath]);
         props.setHistory([
           ...props.history,
-          `Successfully loaded file ${filePath}`,
+          {
+            command: commandString,
+            message: `Successfully loaded file ${filePath}`,
+          },
         ]);
       } else {
         props.setHistory([
           ...props.history,
-          `Error: File ${filePath} not found`,
+          {
+            command: commandString,
+            message: `Error: File ${filePath} not found`,
+          },
         ]);
       }
     } else if (command === "view") {
       if (props.currentDataset.length > 0) {
-        const tableRows = props.currentDataset.map((row, index) => (
-          <tr key={index}>
-            {row.map((cell, cellIndex) => (
-              <td key={cellIndex}>{cell}</td>
-            ))}
-          </tr>
-        ));
         props.setHistory([
           ...props.history,
-          ReactDOMServer.renderToString(<table>{tableRows}</table>),
+          { command: commandString, dataset: props.currentDataset },
         ]);
       } else {
-        props.setHistory([...props.history, "Error: No dataset loaded."]);
+        props.setHistory([
+          ...props.history,
+          { command: commandString, message: "Error: No dataset loaded." },
+        ]);
       }
     } else if (command === "search") {
       // Implement search functionality here
@@ -55,15 +58,25 @@ export function REPLInput(props: REPLInputProps) {
       const newMode = args[0];
       if (newMode === "brief" || newMode === "verbose") {
         props.setMode(newMode);
-        props.setHistory([...props.history, `Mode set to: ${newMode}`]);
+        props.setHistory([
+          ...props.history,
+          { command: commandString, message: "Mode set to " + newMode },
+        ]);
       } else {
         props.setHistory([
           ...props.history,
-          "Error: Invalid mode. Available modes are 'brief' and 'verbose'.",
+          {
+            command: commandString,
+            message:
+              "Error: Invalid mode. Available modes are 'brief' and 'verbose'.",
+          },
         ]);
       }
     } else {
-      props.setHistory([...props.history, "Error: Invalid command."]);
+      props.setHistory([
+        ...props.history,
+        { command: commandString, message: "Error: Invalid command." },
+      ]);
     }
 
     setCommandString("");

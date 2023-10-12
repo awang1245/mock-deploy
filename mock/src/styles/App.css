@@ -1,5 +1,4 @@
 .App {
-  text-align: center;
   background: rgb(238, 174, 202);
   background: rgb(238, 174, 202);
   background: linear-gradient(
@@ -10,6 +9,8 @@
     rgba(163, 165, 226, 1) 60%,
     rgba(148, 187, 233, 1) 100%
   );
+  border: none;
+  margin: 0;
 }
 
 .App-header {
@@ -25,4 +26,9 @@
   color: #3d3f6c;
   border: none;
   margin: 0px;
+}
+
+html {
+  height: 100%;
+  overflow: hidden;
 }

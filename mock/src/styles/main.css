@@ -13,7 +13,7 @@
   border-radius: 30px;
   border: none;
   background: rgba(255, 255, 255, 0.5);
-  width: 70%;
+  width: 1050px;
   max-height: 480px;
   height: 480px;
   display: flex;
@@ -35,7 +35,7 @@
   height: 110px;
   padding-top: 10px;
   border: none;
-  background-color: white;
+  background-color: rgba(255, 255, 255, 0.95);
 }
 
 input[type="text"] {
@@ -59,14 +59,14 @@ input:hover {
   font-weight: 700;
   font-style: normal;
   font-size: 18px;
-  margin-left: 220px;
+  margin-left: 200px;
 }
 
 .repl-command-box {
   color: #3d3f6c;
   font-weight: bold;
   font-size: 16px;
-  width: 780px;
+  width: 800px;
   display: block;
   height: 49px;
   border-radius: 15px;
@@ -107,7 +107,7 @@ button {
   font-weight: bolder;
   margin-left: 20px;
   display: block;
-  width: 170px;
+  width: 200px;
   height: 55px;
   border-radius: 15px;
   border: none;

@@ -84,3 +84,114 @@ test("test verbose mode", async ({ page }) => {
   await page.getByRole("button", { name: "Submitted Verbosely" }).click();
   await expect(page.getByText("Output: Mode set to Brief")).toBeVisible();
 });
+
+test("test viewing not existing csv file", async ({ page }) => {
+  await page.goto("http://localhost:8000/");
+  await page.getByPlaceholder("Enter command here!").fill("mode verbose");
+  await page.getByRole("button", { name: "Submitted Briefly" }).click();
+  await expect(
+    page.getByText("Command: mode verbose Output: Mode set to Verbose")
+  ).toBeVisible();
+  await page.getByPlaceholder("Enter command here!").fill("load fake.csv");
+  await page.getByRole("button", { name: "Submitted Verbosely" }).click();
+  await expect(
+    page.getByText(
+      "Command: load fake.csv Output: Error: File fake.csv not found"
+    )
+  ).toBeVisible();
+});
+
+test("test view", async ({ page }) => {
+  await page.goto("http://localhost:8000/");
+  await page.getByPlaceholder("Enter command here!").fill("load people.csv");
+  await page.getByRole("button", { name: "Submitted Briefly" }).click();
+  await expect(
+    page.getByText("Output: Successfully loaded file people.csv")
+  ).toBeVisible();
+  await page.getByPlaceholder("Enter command here!").fill("view people.csv");
+  await page.getByRole("button", { name: "Submitted Briefly" }).click();
+
+  await page.waitForSelector(".repl-history");
+  const tableData = await page.evaluate(() => {
+    const rows = Array.from(document.querySelectorAll(".repl-history tr"));
+    return rows.map((row) =>
+      Array.from(row.querySelectorAll("td")).map((cell) => cell.textContent)
+    );
+  });
+  const expectedData = [
+    ["Name", "Age", "City"],
+    ["Alice", "25", "New York"],
+    ["Bob", "30", "Chicago"],
+    ["Charlie", "35", "Los Angeles"],
+    ["Percy", "26", "New York"],
+  ];
+
+  expect(tableData).toEqual(expectedData);
+
+  await page.getByPlaceholder("Enter command here!").fill("view movies.csv");
+  await page.getByRole("button", { name: "Submitted Briefly" }).click();
+  await expect(
+    page.getByText("Output: Error: This dataset is not loaded to be viewed.")
+  ).toBeVisible();
+});
+
+test("search", async ({ page }) => {
+  await page.goto("http://localhost:8000/");
+  await page.getByPlaceholder("Enter command here!").fill("load people.csv");
+  await page.getByRole("button", { name: "Submitted Briefly" }).click();
+  await expect(
+    page.getByText("Output: Successfully loaded file people.csv")
+  ).toBeVisible();
+  await page.getByPlaceholder("Enter command here!").fill("search Name Alice");
+  await page.getByRole("button", { name: "Submitted Briefly" }).click();
+  await expect(page.locator(".view-table").locator("tr").nth(0)).toContainText(
+    "Alice25New York"
+  );
+});
+
+test("test load -> view -> load another -> view another", async ({ page }) => {
+  await page.goto("http://localhost:8000/");
+
+  await page.getByPlaceholder("Enter command here!").fill("load people.csv");
+  await page.getByRole("button", { name: "Submitted Briefly" }).click();
+
+  await page.getByPlaceholder("Enter command here!").fill("view people.csv");
+  await page.getByRole("button", { name: "Submitted Briefly" }).click();
+
+  const peopleTable = await page.$$eval("table.view-table tbody tr", (rows) => {
+    return Array.from(rows, (row) => {
+      const columns = row.querySelectorAll("td");
+      return Array.from(columns, (column) => column.textContent);
+    });
+  });
+
+  expect(peopleTable).toEqual([
+    ["Name", "Age", "City"],
+    ["Alice", "25", "New York"],
+    ["Bob", "30", "Chicago"],
+    ["Charlie", "35", "Los Angeles"],
+    ["Percy", "26", "New York"],
+  ]);
+
+  await page.getByPlaceholder("Enter command here!").fill("load movies.csv");
+  await page.getByRole("button", { name: "Submitted Briefly" }).click();
+
+  await page.getByPlaceholder("Enter command here!").fill("view movies.csv");
+  await page.getByRole("button", { name: "Submitted Briefly" }).click();
+
+  const moviesTable = await page.$$eval("table.view-table tbody tr", (rows) => {
+    return Array.from(rows, (row) => {
+      const columns = row.querySelectorAll("td");
+      return Array.from(columns, (column) => column.textContent);
+    });
+  });
+
+  expect(moviesTable).toEqual([
+    ["Title", "Year", "Director"],
+    ["My Neighbor Totoro", "1988", "Hayao Miyazaki"],
+    ["Your Name", "2017", "Makoto Shinkai"],
+    ["Ponyo", "2008", "Hayao Miyazaki"],
+    ["Barbie", "2023", "Greta Gerwig"],
+    ["Oppenheimer", "2023", "Christopher Nolan"],
+  ]);
+});

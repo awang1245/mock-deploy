@@ -20,6 +20,7 @@ interface REPLInputProps {
 
 export function REPLInput(props: REPLInputProps) {
   const [commandString, setCommandString] = useState<string>("");
+  const [filePath, setFilePath] = useState<string>("");
 
   function handleSubmit(commandString: string) {
     const [command, ...args] = commandString.split(" ");
@@ -29,6 +30,7 @@ export function REPLInput(props: REPLInputProps) {
       if (datasets[query]) {
         props.setCurrentViewDataset(datasets[query]);
         props.setCurrentSearchDataset(searchSet[query]);
+        setFilePath(query);
         props.setHistory([
           ...props.history,
           {
@@ -102,7 +104,9 @@ export function REPLInput(props: REPLInputProps) {
             ...props.history,
             {
               command: commandString,
-              message: "Error: No search results matches the search value.",
+              message:
+                "Error: No search results matches the search value. Current loaded dataset: " +
+                filePath,
             },
           ]);
         }

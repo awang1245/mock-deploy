@@ -13,7 +13,8 @@
   border-radius: 30px;
   border: none;
   background: rgba(255, 255, 255, 0.5);
-  width: 1050px;
+  max-width: 1200px;
+  width: 970px;
   max-height: 480px;
   height: 480px;
   display: flex;
@@ -23,6 +24,8 @@
   overflow: scroll;
   padding-top: 10px;
   padding-bottom: 10px;
+  padding-left: 40px;
+  padding-right: 40px;
 }
 
 .repl-history:hover {

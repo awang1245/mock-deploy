@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import { Dispatch, SetStateAction } from "react";
 import { ControlledInput } from "./ControlledInput";
 import { datasets } from "./mockedJson";
-import { searchPeopleSet } from "./mockedJson";
-import { searchMovieSet } from "./mockedJson";
+import { searchSet } from "./mockedJson";
 import { History } from "./REPL";
 
 interface REPLInputProps {
@@ -11,8 +10,12 @@ interface REPLInputProps {
   setHistory: Dispatch<SetStateAction<History[]>>;
   mode: string;
   setMode: Dispatch<SetStateAction<string>>;
-  setCurrentDataset: Dispatch<SetStateAction<string[][]>>;
-  currentDataset: string[][];
+  currentViewDataset: string[][];
+  setCurrentViewDataset: Dispatch<SetStateAction<string[][]>>;
+  currentSearchDataset: { [key: string]: string[][] };
+  setCurrentSearchDataset: Dispatch<
+    SetStateAction<{ [key: string]: string[][] }>
+  >;
 }
 
 export function REPLInput(props: REPLInputProps) {
@@ -21,16 +24,16 @@ export function REPLInput(props: REPLInputProps) {
   function handleSubmit(commandString: string) {
     const [command, ...args] = commandString.split(" ");
     const query = args.join(" ");
-    const filePath = query;
 
     if (command === "load") {
-      if (datasets[filePath]) {
-        props.setCurrentDataset(datasets[filePath]);
+      if (datasets[query]) {
+        props.setCurrentViewDataset(datasets[query]);
+        props.setCurrentSearchDataset(searchSet[query]);
         props.setHistory([
           ...props.history,
           {
             command: commandString,
-            message: `Successfully loaded file ${filePath}`,
+            message: `Successfully loaded file ${query}`,
           },
         ]);
       } else {
@@ -38,15 +41,20 @@ export function REPLInput(props: REPLInputProps) {
           ...props.history,
           {
             command: commandString,
-            message: `Error: File ${filePath} not found`,
+            message: `Error: File ${query} not found`,
           },
         ]);
       }
     } else if (command === "view") {
-      if (props.currentDataset == datasets[filePath]) {
+      if (props.currentViewDataset == datasets[query]) {
         props.setHistory([
           ...props.history,
-          { command: commandString, dataset: props.currentDataset },
+          { command: commandString, dataset: props.currentViewDataset },
+        ]);
+      } else if (props.currentViewDataset.length === 0) {
+        props.setHistory([
+          ...props.history,
+          { command: commandString, message: "Error: No dataset loaded." },
         ]);
       } else if (args.length === 0) {
         props.setHistory([
@@ -59,21 +67,28 @@ export function REPLInput(props: REPLInputProps) {
       } else {
         props.setHistory([
           ...props.history,
-          { command: commandString, message: "Error: No dataset loaded." },
+          {
+            command: commandString,
+            message: "Error: This dataset is not loaded to be viewed.",
+          },
         ]);
       }
     } else if (command === "search") {
-      if (props.currentDataset.length > 0) {
-        if (
-          Object.keys(searchPeopleSet).indexOf(query) != -1 ||
-          Object.keys(searchMovieSet).indexOf(query) != -1
-        ) {
-          const result = searchPeopleSet[query] || searchMovieSet[query];
-          if (result)
-            props.setHistory([
-              ...props.history,
-              { command: commandString, dataset: result },
-            ]);
+      if (
+        props.currentViewDataset.length > 0 &&
+        Object.keys(props.currentSearchDataset).length > 0
+      ) {
+        // if (
+        //   Object.keys(searchPeopleSet).indexOf(query) != -1 ||
+        //   Object.keys(searchMovieSet).indexOf(query) != -1
+        // )
+        if (Object.keys(props.currentSearchDataset).indexOf(query) !== -1) {
+          //const result = searchPeopleSet[query] || searchMovieSet[query];
+          const result = props.currentSearchDataset[query];
+          props.setHistory([
+            ...props.history,
+            { command: commandString, dataset: result },
+          ]);
         } else if (args.length === 0) {
           props.setHistory([
             ...props.history,
@@ -87,7 +102,7 @@ export function REPLInput(props: REPLInputProps) {
             ...props.history,
             {
               command: commandString,
-              message: "Error: No search results matches the search value",
+              message: "Error: No search results matches the search value.",
             },
           ]);
         }
@@ -121,7 +136,6 @@ export function REPLInput(props: REPLInputProps) {
         { command: commandString, message: "Error: Invalid command." },
       ]);
     }
-
     setCommandString("");
   }
 

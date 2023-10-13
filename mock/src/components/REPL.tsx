@@ -2,11 +2,9 @@ import React, { useState } from "react";
 import "../styles/main.css";
 import { REPLHistory } from "./REPLHistory";
 import { REPLInput } from "./REPLInput";
-import { datasets } from "./mockedJson";
 
 export interface History {
   command: string;
-  //? means optional value
   message?: string;
   dataset?: string[][];
 }
@@ -14,7 +12,10 @@ export interface History {
 export default function REPL() {
   const [history, setHistory] = useState<History[]>([]);
   const [mode, setMode] = useState<string>("brief");
-  const [currentDataset, setCurrentDataset] = useState<string[][]>([]);
+  const [currentViewDataset, setCurrentViewDataset] = useState<string[][]>([]);
+  const [currentSearchDataset, setCurrentSearchDataset] = useState<{
+    [key: string]: string[][];
+  }>({});
 
   return (
     <div className="repl">
@@ -24,8 +25,10 @@ export default function REPL() {
         setHistory={setHistory}
         mode={mode}
         setMode={setMode}
-        setCurrentDataset={setCurrentDataset}
-        currentDataset={currentDataset}
+        setCurrentViewDataset={setCurrentViewDataset}
+        currentViewDataset={currentViewDataset}
+        setCurrentSearchDataset={setCurrentSearchDataset}
+        currentSearchDataset={currentSearchDataset}
       />
     </div>
   );

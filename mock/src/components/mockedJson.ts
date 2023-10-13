@@ -14,6 +14,7 @@ export const datasets: { [key: string]: string[][] } = {
     ["Barbie", "2023", "Greta Gerwig"],
     ["Oppenheimer", "2023", "Christopher Nolan"],
   ],
+  "empty.csv": [],
 };
 
 export const searchPeopleSet: { [key: string]: string[][] } = {

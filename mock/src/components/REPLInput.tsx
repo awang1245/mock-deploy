@@ -11,8 +11,8 @@ interface REPLInputProps {
   setHistory: Dispatch<SetStateAction<History[]>>;
   mode: string;
   setMode: Dispatch<SetStateAction<string>>;
-  setCurrentDataset: Dispatch<SetStateAction<string[][]>>;
   currentDataset: string[][];
+  setCurrentDataset: Dispatch<SetStateAction<string[][]>>;
 }
 
 export function REPLInput(props: REPLInputProps) {
@@ -48,6 +48,11 @@ export function REPLInput(props: REPLInputProps) {
           ...props.history,
           { command: commandString, dataset: props.currentDataset },
         ]);
+      } else if (props.currentDataset.length === 0) {
+        props.setHistory([
+          ...props.history,
+          { command: commandString, message: "Error: No dataset loaded." },
+        ]);
       } else if (args.length === 0) {
         props.setHistory([
           ...props.history,
@@ -59,7 +64,10 @@ export function REPLInput(props: REPLInputProps) {
       } else {
         props.setHistory([
           ...props.history,
-          { command: commandString, message: "Error: No dataset loaded." },
+          {
+            command: commandString,
+            message: "Error: This dataset is not loaded to be viewed.",
+          },
         ]);
       }
     } else if (command === "search") {
@@ -69,11 +77,10 @@ export function REPLInput(props: REPLInputProps) {
           Object.keys(searchMovieSet).indexOf(query) != -1
         ) {
           const result = searchPeopleSet[query] || searchMovieSet[query];
-          if (result)
-            props.setHistory([
-              ...props.history,
-              { command: commandString, dataset: result },
-            ]);
+          props.setHistory([
+            ...props.history,
+            { command: commandString, dataset: result },
+          ]);
         } else if (args.length === 0) {
           props.setHistory([
             ...props.history,
@@ -121,7 +128,6 @@ export function REPLInput(props: REPLInputProps) {
         { command: commandString, message: "Error: Invalid command." },
       ]);
     }
-
     setCommandString("");
   }
 

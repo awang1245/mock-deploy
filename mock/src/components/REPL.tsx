@@ -2,11 +2,9 @@ import React, { useState } from "react";
 import "../styles/main.css";
 import { REPLHistory } from "./REPLHistory";
 import { REPLInput } from "./REPLInput";
-import { datasets } from "./mockedJson";
 
 export interface History {
   command: string;
-  //? means optional value
   message?: string;
   dataset?: string[][];
 }

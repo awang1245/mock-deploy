@@ -174,7 +174,9 @@ test("test load -> view different file", async ({ page }) => {
   await page.getByPlaceholder("Enter command here!").fill("view movies.csv");
   await page.getByRole("button", { name: "Submitted Briefly" }).click();
   await expect(
-    page.getByText("Output: Error: This dataset is not loaded to be viewed.")
+    page.getByText(
+      "Output: Error: Please check your syntax and the dataset you loaded."
+    )
   ).toBeVisible();
 });
 
@@ -233,7 +235,7 @@ test("search unfound query", async ({ page }) => {
   await page.getByRole("button", { name: "Submitted Briefly" }).click();
   await expect(
     page.getByText(
-      "Output: Error: No search results matches the search value. Current loaded dataset: people.csv"
+      "Output: Error: No search results matches the search value. Current dataset loaded: people.csv"
     )
   ).toBeVisible();
 });
@@ -249,7 +251,7 @@ test("search before load", async ({ page }) => {
 test("invalid command inputted", async ({ page }) => {
   await page.getByPlaceholder("Enter command here!").fill("hihi");
   await page.getByRole("button", { name: "Submitted Briefly" }).click();
-  await expect(page.getByText("Output: Error: Invalid command.")).toBeVisible();
+  await expect(page.getByText("Output: Error: Invalid command")).toBeVisible();
 });
 
 test("integration: load -> view -> search", async ({ page }) => {
@@ -277,7 +279,9 @@ test("integration: load file 1 -> load file 2 -> view file 1", async ({
   await page.getByPlaceholder("Enter command here!").fill("view people.csv");
   await page.getByRole("button", { name: "Submitted Briefly" }).click();
   await expect(
-    page.getByText("Output: Error: This dataset is not loaded to be viewed.")
+    page.getByText(
+      "Output: Error: Please check your syntax and the dataset you loaded."
+    )
   ).toBeVisible();
 });
 
@@ -299,7 +303,9 @@ test("integration: test load -> view -> view different file", async ({
   await page.getByPlaceholder("Enter command here!").fill("view movies.csv");
   await page.getByRole("button", { name: "Submitted Briefly" }).click();
   await expect(
-    page.getByText("Output: Error: This dataset is not loaded to be viewed.")
+    page.getByText(
+      "Output: Error: Please check your syntax and the dataset you loaded."
+    )
   ).toBeVisible();
 });
 

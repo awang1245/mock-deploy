@@ -144,9 +144,9 @@ test("search", async ({ page }) => {
   ).toBeVisible();
   await page.getByPlaceholder("Enter command here!").fill("search Name Alice");
   await page.getByRole("button", { name: "Submitted Briefly" }).click();
-  await expect(page.locator(".view-table").locator("tr").nth(0)).toContainText(
-    "Alice25New York"
-  );
+  await expect(page.getByLabel("history-div")).toContainText([
+    "Alice25New York",
+  ]);
 });
 
 test("test load -> view -> load another -> view another", async ({ page }) => {
@@ -158,19 +158,8 @@ test("test load -> view -> load another -> view another", async ({ page }) => {
   await page.getByPlaceholder("Enter command here!").fill("view people.csv");
   await page.getByRole("button", { name: "Submitted Briefly" }).click();
 
-  const peopleTable = await page.$$eval("table.view-table tbody tr", (rows) => {
-    return Array.from(rows, (row) => {
-      const columns = row.querySelectorAll("td");
-      return Array.from(columns, (column) => column.textContent);
-    });
-  });
-
-  expect(peopleTable).toEqual([
-    ["Name", "Age", "City"],
-    ["Alice", "25", "New York"],
-    ["Bob", "30", "Chicago"],
-    ["Charlie", "35", "Los Angeles"],
-    ["Percy", "26", "New York"],
+  await expect(page.getByLabel("history-div")).toContainText([
+    "NameAgeCityAlice25New YorkBob30ChicagoCharlie35Los AngelesPercy26New York",
   ]);
 
   await page.getByPlaceholder("Enter command here!").fill("load movies.csv");
@@ -179,19 +168,7 @@ test("test load -> view -> load another -> view another", async ({ page }) => {
   await page.getByPlaceholder("Enter command here!").fill("view movies.csv");
   await page.getByRole("button", { name: "Submitted Briefly" }).click();
 
-  const moviesTable = await page.$$eval("table.view-table tbody tr", (rows) => {
-    return Array.from(rows, (row) => {
-      const columns = row.querySelectorAll("td");
-      return Array.from(columns, (column) => column.textContent);
-    });
-  });
-
-  expect(moviesTable).toEqual([
-    ["Title", "Year", "Director"],
-    ["My Neighbor Totoro", "1988", "Hayao Miyazaki"],
-    ["Your Name", "2017", "Makoto Shinkai"],
-    ["Ponyo", "2008", "Hayao Miyazaki"],
-    ["Barbie", "2023", "Greta Gerwig"],
-    ["Oppenheimer", "2023", "Christopher Nolan"],
+  await expect(page.getByLabel("history-div")).toContainText([
+    "TitleYearDirectorMy Neighbor Totoro1988Hayao MiyazakiYour Name2017Makoto ShinkaiPonyo2008Hayao MiyazakiBarbie2023Greta GerwigOppenheimer2023Christopher Nolan",
   ]);
 });

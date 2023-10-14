@@ -18,27 +18,15 @@ export function REPLHistory(props: REPLHistoryProps) {
           )}
           Output: {item.message && <span>{item.message}</span>}
           {item.dataset && (
-            <table className="view-table">
-              <tbody>
-                {item.dataset.map((row, index) => (
-                  <tr key={index}>
-                    {row.map((cell, cellIndex) => (
-                      <td key={cellIndex}>{cell}</td>
-                    ))}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-            // <div className="view-table">
-            //   ariaLabel={"view-table"}
-            //   {item.dataset.map((row, index) => (
-            //     <tr key={index}>
-            //       {row.map((cell, cellIndex) => (
-            //         <td key={cellIndex}>{cell}</td>
-            //       ))}
-            //     </tr>
-            //   ))}
-            // </div>
+            <div className="view-table" aria-label="history-div">
+              {item.dataset.map((row, index) => (
+                <tr key={index}>
+                  {row.map((cell, cellIndex) => (
+                    <td key={cellIndex}>{cell}</td>
+                  ))}
+                </tr>
+              ))}
+            </div>
           )}
         </p>
       ))}

@@ -11,7 +11,7 @@ interface REPLHistoryProps {
 
 /**
  * This function populates what to display depending on what command has been called, what
- * props have been updated, and what mode it is on.
+ * optional props have been assigned a value, and what output mode it is on.
  * @param props
  * @returns Modified values
  */
@@ -20,12 +20,16 @@ export function REPLHistory(props: REPLHistoryProps) {
     <div className="repl-history">
       {props.history.map((item, index) => (
         <p key={index}>
+          {/** If the mode is verbose, then include a line of output repeating the command back to the user */}
           {props.mode === "verbose" && (
             <>
               <span>Command: {item.command}</span> <br />
             </>
           )}
+          {/** If the optional message field is filled, then Output: will contain a success/error message */}
           Output: {item.message && <span>{item.message}</span>}
+          {/** If the optional dataset field is filled, then Output: will contain either a table of an entire
+           * dataset for view, or specific rows for search */}
           {item.dataset && (
             <div className="view-table" aria-label="history-div">
               {item.dataset.map((row, index) => (

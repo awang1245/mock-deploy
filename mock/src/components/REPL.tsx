@@ -4,11 +4,12 @@ import { REPLHistory } from "./REPLHistory";
 import { REPLInput } from "./REPLInput";
 
 /**
- * This is a great top level component for the REPL.
+ * This is our top level component for the REPL for our application.
  * It declares all the fields that may be updated depending on the command used.
  */
 export interface History {
   command: string;
+  //message and dataset are optional values
   message?: string;
   dataset?: string[][];
 }
@@ -18,6 +19,7 @@ export interface History {
  * @returns the modified fields depending on the commands made.
  */
 export default function REPL() {
+  //array of type History so that it can account for commands and messages or datasets
   const [history, setHistory] = useState<History[]>([]);
   const [mode, setMode] = useState<string>("brief");
   const [currentViewDataset, setCurrentViewDataset] = useState<string[][]>([]);

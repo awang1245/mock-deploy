@@ -4,6 +4,7 @@ import { Dispatch, SetStateAction } from "react";
 /**
  * This class handles the command input box of our html.
  */
+
 interface ControlledInputProps {
   value: string;
   setValue: Dispatch<SetStateAction<string>>;

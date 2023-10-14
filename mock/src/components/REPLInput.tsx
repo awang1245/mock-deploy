@@ -7,6 +7,13 @@ import { History } from "./REPL";
 
 /**
  * This is the class that deals with all the command inputs of the program.
+ *
+ * Two different datasets are used to mock the full load, view, and search functionality
+ * of our application, but datasets and searchsets contain identical keys file paths so that
+ * they are synced.
+ *
+ * Importantly, history is of type History so it can handle commands, messages, and datasets
+ * for output.
  */
 interface REPLInputProps {
   history: History[];
@@ -32,16 +39,20 @@ export function REPLInput(props: REPLInputProps) {
   const [filePath, setFilePath] = useState<string>("");
 
   function handleSubmit(commandString: string) {
+    //splits the first value in commandString into the command, and the rest as a string array of args
     const [command, ...args] = commandString.split(" ");
+    //joining the arg array together so it is compatible for search queries
     const query = args.join(" ");
 
     if (command === "load") {
+      //datasets and searchSet have synced keys, so queries need to and should satisfy both
       if (
         Object.keys(datasets).indexOf(query) !== -1 &&
         Object.keys(searchSet).indexOf(query) !== -1
       ) {
         props.setCurrentViewDataset(datasets[query]);
         props.setCurrentSearchDataset(searchSet[query]);
+        //keeping track of currently loaded filepath to keep user informed
         setFilePath(query);
         props.setHistory([
           ...props.history,

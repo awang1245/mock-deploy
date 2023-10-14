@@ -3,6 +3,12 @@ import { incomeByRace } from "./longDataset";
 /**
  * This is a file to store all the mockedJson dataset
  */
+
+/**
+ * This is a dictionary that maps from string file paths to all of the parsed CSV data we mocked.
+ * It contains two smaller custom datasets, dol_ri_earnings_disparity.csv, and ten-star.csv
+ * from our previous projects, and a large dataset income_by_race.csv imported from another file.
+ */
 export const datasets: { [key: string]: string[][] } = {
   "people.csv": [
     ["Name", "Age", "City"],
@@ -57,8 +63,18 @@ export const datasets: { [key: string]: string[][] } = {
   ],
   "empty.csv": [],
   "income_by_race.csv": incomeByRace,
+  "one_row.csv": [["Lulu", "Cat", "Mainecoon"]],
+  "one_column.csv": [
+    ["Pet"],
+    ["Dog"],
+    ["Cat"],
+    ["Guinea Pig"],
+    ["Ferret"],
+    ["Parrot"],
+  ],
 };
 
+// mocked out search queries for people.csv
 const searchPeopleSet: { [key: string]: string[][] } = {
   "Name Bob": [["Bob", "30", "Chicago"]],
   "Name Alice": [["Alice", "25", "New York"]],
@@ -77,6 +93,7 @@ const searchPeopleSet: { [key: string]: string[][] } = {
   ],
 };
 
+// mocked search queries for movies.csv
 const searchMovieSet: { [key: string]: string[][] } = {
   "Title Your Name": [["Your Name", "2017", "Makoto Shinkai"]],
   "Title Barbie": [["Barbie", "2023", "Greta Gerwig"]],
@@ -101,6 +118,7 @@ const searchMovieSet: { [key: string]: string[][] } = {
   ],
 };
 
+// mocked search queries for dol_ri_earnings_disparity.csv
 const searchDolRI: { [key: string]: string[][] } = {
   "State RI": [
     ["RI", "White", "$1,058.47", "395773.6521", "$1.00", "75%"],
@@ -158,6 +176,7 @@ const searchDolRI: { [key: string]: string[][] } = {
   "5 75%": [["RI", "White", "$1,058.47", "395773.6521", "$1.00", "75%"]],
 };
 
+// mocked search quries for ten-star.csv, notably one searching for empty string value
 const searchTenStar: { [key: string]: string[][] } = {
   "0 0": [["0", "Sol", "0", "0", "0"]],
   "ProperName  ": [
@@ -171,6 +190,7 @@ const searchTenStar: { [key: string]: string[][] } = {
   ],
 };
 
+// mocked out search quries for large dataset income_by_race.csv; testing searches with large row outputs
 const searchIncomeByRace: { [key: string]: string[][] } = {
   "Race Pacific Islander": [
     [
@@ -754,10 +774,23 @@ const searchIncomeByRace: { [key: string]: string[][] } = {
   ],
 };
 
+const searchOneRow: { [key: string]: string[][] } = {
+  "Cat Cat": [["Lulu", "Cat", "Mainecoon"]],
+  "2 Mainecoon": [["Lulu", "Cat", "Mainecoon"]],
+};
+
+const searchOneCol: { [key: string]: string[][] } = {
+  "Pet Dog": [["Dog"]],
+  "Pet Guinea Pig": [["Guinea Pig"]],
+  "0 Ferret": [["Ferret"]],
+};
+
 export const searchSet: { [key: string]: { [key: string]: string[][] } } = {
   "people.csv": searchPeopleSet,
   "movies.csv": searchMovieSet,
   "dol_ri_earnings_disparity.csv": searchDolRI,
   "ten-star.csv": searchTenStar,
   "income_by_race.csv": searchIncomeByRace,
+  "one_row.csv": searchOneRow,
+  "one_column.csv": searchOneCol,
 };

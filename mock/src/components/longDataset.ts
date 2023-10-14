@@ -1,5 +1,5 @@
 /**
- * This is a file to store a mocked large dataset
+ * This is a file to store a mocked large dataset: income_by_race.csv
  */
 export const incomeByRace = [
   [

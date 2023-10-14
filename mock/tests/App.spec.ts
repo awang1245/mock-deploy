@@ -96,13 +96,11 @@ test("load fail message printing verbose", async ({ page }) => {
 });
 
 test("invalid command", async ({ page }) => {
-  await page.goto("http://localhost:8000/");
-  //invalid command brief mode
+  await page.goto("http://localhost:8000/"); //invalid command brief mode
   await page.getByPlaceholder("Enter command here!").fill("invalid");
   await page.getByRole("button", { name: "Submitted Briefly" }).click();
-  await expect(page.getByText("Output: Error: Invalid command")).toBeVisible();
+  await expect(page.getByText("Output: Error: Invalid command")).toBeVisible(); //invalid command verbose mode
 
-  //invalid command verbose mode
   await page.getByPlaceholder("Enter command here!").fill("mode verbose");
   await page.getByRole("button", { name: "Submitted Briefly" }).click();
   await page.getByPlaceholder("Enter command here!").fill("invalid");
@@ -213,6 +211,28 @@ test("search returning multiple results", async ({ page }) => {
   await page.getByRole("button", { name: "Submitted Briefly" }).click();
   await expect(page.getByLabel("history-div")).toContainText([
     "Barbie2023Greta GerwigOppenheimer2023Christopher Nolan",
+  ]);
+});
+
+test("search dataset with one col", async ({ page }) => {
+  await page
+    .getByPlaceholder("Enter command here!")
+    .fill("load one_column.csv");
+  await page.getByRole("button", { name: "Submitted Briefly" }).click();
+  await page
+    .getByPlaceholder("Enter command here!")
+    .fill("search Pet Guinea Pig");
+  await page.getByRole("button", { name: "Submitted Briefly" }).click();
+  await expect(page.getByLabel("history-div")).toContainText(["Guinea Pig"]);
+});
+
+test("search dataset with one row", async ({ page }) => {
+  await page.getByPlaceholder("Enter command here!").fill("load one_row.csv");
+  await page.getByRole("button", { name: "Submitted Briefly" }).click();
+  await page.getByPlaceholder("Enter command here!").fill("search 2 Mainecoon");
+  await page.getByRole("button", { name: "Submitted Briefly" }).click();
+  await expect(page.getByLabel("history-div")).toContainText([
+    "LuluCatMainecoon",
   ]);
 });
 

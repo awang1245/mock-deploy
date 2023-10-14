@@ -2,7 +2,7 @@ import "../styles/App.css";
 import REPL from "./REPL";
 
 /**
- * This is the highest level component
+ * This is the highest level component which calls the REPL function.
  */
 
 function App() {

@@ -80,12 +80,7 @@ export function REPLInput(props: REPLInputProps) {
         props.currentViewDataset.length > 0 &&
         Object.keys(props.currentSearchDataset).length > 0
       ) {
-        // if (
-        //   Object.keys(searchPeopleSet).indexOf(query) != -1 ||
-        //   Object.keys(searchMovieSet).indexOf(query) != -1
-        // )
         if (Object.keys(props.currentSearchDataset).indexOf(query) !== -1) {
-          //const result = searchPeopleSet[query] || searchMovieSet[query];
           const result = props.currentSearchDataset[query];
           props.setHistory([
             ...props.history,

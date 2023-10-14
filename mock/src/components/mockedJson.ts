@@ -1,5 +1,8 @@
 import { incomeByRace } from "./longDataset";
 
+/**
+ * This is a file to store all the mockedJson dataset
+ */
 export const datasets: { [key: string]: string[][] } = {
   "people.csv": [
     ["Name", "Age", "City"],

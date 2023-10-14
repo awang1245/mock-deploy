@@ -5,6 +5,9 @@ import { datasets } from "./mockedJson";
 import { searchSet } from "./mockedJson";
 import { History } from "./REPL";
 
+/**
+ * This is the class that deals with all the command inputs of the program.
+ */
 interface REPLInputProps {
   history: History[];
   setHistory: Dispatch<SetStateAction<History[]>>;
@@ -18,6 +21,12 @@ interface REPLInputProps {
   >;
 }
 
+/**
+ * This function sets appropriate fields to values depending on the command called.
+ * It also handles all the edge cases depending on the commands inputted.
+ * @param props
+ * @returns submitted command and output values to be updated in the html.
+ */
 export function REPLInput(props: REPLInputProps) {
   const [commandString, setCommandString] = useState<string>("");
   const [filePath, setFilePath] = useState<string>("");
@@ -137,7 +146,6 @@ export function REPLInput(props: REPLInputProps) {
     }
     setCommandString("");
   }
-
   return (
     <div className="repl-input">
       <legend id="command-instruct">Enter a command:</legend>
@@ -147,7 +155,6 @@ export function REPLInput(props: REPLInputProps) {
           setValue={setCommandString}
           ariaLabel={"Command input"}
         />
-        {/* Add mode buttons */}
         <button
           className="submit-button"
           onClick={() => handleSubmit(commandString)}

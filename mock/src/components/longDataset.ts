@@ -1,3 +1,6 @@
+/**
+ * This is a file to store a mocked large dataset
+ */
 export const incomeByRace = [
   [
     "ID Race",

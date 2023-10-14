@@ -13,14 +13,12 @@ export function REPLHistory(props: REPLHistoryProps) {
         <p key={index}>
           {props.mode === "verbose" && (
             <>
-              {/*Map requires only one child, so empty fragment wraps the two elements to be one child. 
-            Div works too but would add line*/}
               <span>Command: {item.command}</span> <br />
             </>
           )}
           Output: {item.message && <span>{item.message}</span>}
           {item.dataset && (
-            <div className="view-table">
+            <div className="view-table" aria-label="history-div">
               {item.dataset.map((row, index) => (
                 <tr key={index}>
                   {row.map((cell, cellIndex) => (

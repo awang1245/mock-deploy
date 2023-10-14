@@ -52,7 +52,7 @@ test("test verbose mode", async ({ page }) => {
   await expect(page.getByText("Output: Mode set to Brief")).toBeVisible();
 });
 
-test("load success message", async ({ page }) => {
+test("load success message printing brief", async ({ page }) => {
   await page.getByPlaceholder("Enter command here!").fill("load people.csv");
   await page.getByRole("button", { name: "Submitted Briefly" }).click();
   await expect(
@@ -60,11 +60,63 @@ test("load success message", async ({ page }) => {
   ).toBeVisible();
 });
 
-test("load fail message", async ({ page }) => {
+test("load success message printing verbose", async ({ page }) => {
+  await page.goto("http://localhost:8000/");
+  await page.getByPlaceholder("Enter command here!").fill("mode verbose");
+  await page.getByRole("button", { name: "Submitted Briefly" }).click();
+  await page.getByPlaceholder("Enter command here!").fill("load people.csv");
+  await page.getByRole("button", { name: "Submitted Verbosely" }).click();
+  await expect(
+    page.getByText(
+      "Command: load people.csv Output: Successfully loaded file people.csv"
+    )
+  ).toBeVisible();
+});
+
+test("load fail message printing brief", async ({ page }) => {
+  await page.goto("http://localhost:8000/");
   await page.getByPlaceholder("Enter command here!").fill("load fake.csv");
   await page.getByRole("button", { name: "Submitted Briefly" }).click();
   await expect(
     page.getByText("Output: Error: File fake.csv not found")
+  ).toBeVisible();
+});
+
+test("load fail message printing verbose", async ({ page }) => {
+  await page.goto("http://localhost:8000/");
+  await page.getByPlaceholder("Enter command here!").fill("mode verbose");
+  await page.getByRole("button", { name: "Submitted Briefly" }).click();
+  await page.getByPlaceholder("Enter command here!").fill("load fake.csv");
+  await page.getByRole("button", { name: "Submitted Verbosely" }).click();
+  await expect(
+    page.getByText(
+      "Command: load fake.csv Output: Error: File fake.csv not found"
+    )
+  ).toBeVisible();
+});
+
+test("invalid command", async ({ page }) => {
+  await page.goto("http://localhost:8000/");
+  //invalid command brief mode
+  await page.getByPlaceholder("Enter command here!").fill("invalid");
+  await page.getByRole("button", { name: "Submitted Briefly" }).click();
+  await expect(page.getByText("Output: Error: Invalid command")).toBeVisible();
+
+  //invalid command verbose mode
+  await page.getByPlaceholder("Enter command here!").fill("mode verbose");
+  await page.getByRole("button", { name: "Submitted Briefly" }).click();
+  await page.getByPlaceholder("Enter command here!").fill("invalid");
+  await expect(
+    page.getByText("Command: invalid Output: Error: Invalid command")
+  ).toBeVisible();
+});
+
+test("test view before load", async ({ page }) => {
+  await page.goto("http://localhost:8000/");
+  await page.getByPlaceholder("Enter command here!").fill("view people.csv");
+  await page.getByRole("button", { name: "Submitted Briefly" }).click();
+  await expect(
+    page.getByText("Output: Error: No dataset loaded")
   ).toBeVisible();
 });
 
@@ -104,14 +156,6 @@ test("view success message after success load and fail load", async ({
   await expect(page.getByLabel("history-div")).toContainText([
     "NameAgeCityAlice25New YorkBob30ChicagoCharlie35Los AngelesPercy26New York",
   ]);
-});
-
-test("test view before load", async ({ page }) => {
-  await page.getByPlaceholder("Enter command here!").fill("view people.csv");
-  await page.getByRole("button", { name: "Submitted Briefly" }).click();
-  await expect(
-    page.getByText("Output: Error: No dataset loaded")
-  ).toBeVisible();
 });
 
 test("test view without filepath", async ({ page }) => {

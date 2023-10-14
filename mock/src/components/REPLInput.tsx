@@ -36,7 +36,10 @@ export function REPLInput(props: REPLInputProps) {
     const query = args.join(" ");
 
     if (command === "load") {
-      if (datasets[query]) {
+      if (
+        Object.keys(datasets).indexOf(query) !== -1 &&
+        Object.keys(searchSet).indexOf(query) !== -1
+      ) {
         props.setCurrentViewDataset(datasets[query]);
         props.setCurrentSearchDataset(searchSet[query]);
         setFilePath(query);
@@ -57,7 +60,7 @@ export function REPLInput(props: REPLInputProps) {
         ]);
       }
     } else if (command === "view") {
-      if (props.currentViewDataset == datasets[query]) {
+      if (props.currentViewDataset === datasets[query]) {
         props.setHistory([
           ...props.history,
           { command: commandString, dataset: props.currentViewDataset },
@@ -80,7 +83,8 @@ export function REPLInput(props: REPLInputProps) {
           ...props.history,
           {
             command: commandString,
-            message: "Error: This dataset is not loaded to be viewed.",
+            message:
+              "Error: Please check your syntax and the dataset you loaded.",
           },
         ]);
       }
@@ -109,7 +113,7 @@ export function REPLInput(props: REPLInputProps) {
             {
               command: commandString,
               message:
-                "Error: No search results matches the search value. Current loaded dataset: " +
+                "Error: No search results matches the search value. Current dataset loaded: " +
                 filePath,
             },
           ]);
@@ -121,12 +125,11 @@ export function REPLInput(props: REPLInputProps) {
         ]);
       }
     } else if (command === "mode") {
-      const newMode = query;
-      if (newMode === "brief" || newMode === "verbose") {
-        props.setMode(newMode);
+      if (query === "brief" || query === "verbose") {
+        props.setMode(query);
         props.setHistory([
           ...props.history,
-          { command: commandString, message: "Mode set to " + newMode },
+          { command: commandString, message: "Mode set to " + query },
         ]);
       } else {
         props.setHistory([
@@ -141,7 +144,7 @@ export function REPLInput(props: REPLInputProps) {
     } else {
       props.setHistory([
         ...props.history,
-        { command: commandString, message: "Error: Invalid command." },
+        { command: commandString, message: "Error: Invalid command" },
       ]);
     }
     setCommandString("");

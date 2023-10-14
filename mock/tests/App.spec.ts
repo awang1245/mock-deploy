@@ -46,12 +46,63 @@ test("mode switch changes the button", async ({ page }) => {
   ).toBeVisible();
 });
 
-test("load success message printing", async ({ page }) => {
+test("load success message printing brief", async ({ page }) => {
   await page.goto("http://localhost:8000/");
   await page.getByPlaceholder("Enter command here!").fill("load people.csv");
   await page.getByRole("button", { name: "Submitted Briefly" }).click();
   await expect(
     page.getByText("Output: Successfully loaded file people.csv")
+  ).toBeVisible();
+});
+
+test("load success message printing verbose", async ({ page }) => {
+  await page.goto("http://localhost:8000/");
+  await page.getByLabel("Command input").fill("mode verbose");
+  await page.getByRole("button", { name: "Submitted Briefly" }).click();
+  await page.getByPlaceholder("Enter command here!").fill("load people.csv");
+  await page.getByRole("button", { name: "Submitted Verbosely" }).click();
+  await expect(
+    page.getByText(
+      "Command: load people.csv Output: Successfully loaded file people.csv"
+    )
+  ).toBeVisible();
+});
+
+test("load fail message printing brief", async ({ page }) => {
+  await page.goto("http://localhost:8000/");
+  await page.getByPlaceholder("Enter command here!").fill("load fake.csv");
+  await page.getByRole("button", { name: "Submitted Briefly" }).click();
+  await expect(
+    page.getByText("Output: Error: File fake.csv not found")
+  ).toBeVisible();
+});
+
+test("load fail message printing verbose", async ({ page }) => {
+  await page.goto("http://localhost:8000/");
+  await page.getByPlaceholder("Enter command here!").fill("mode verbose");
+  await page.getByRole("button", { name: "Submitted Briefly" }).click();
+  await page.getByPlaceholder("Enter command here!").fill("load fake.csv");
+  await page.getByRole("button", { name: "Submitted Verbosely" }).click();
+  await expect(
+    page.getByText(
+      "Command: load fake.csv Output: Error: File fake.csv not found"
+    )
+  ).toBeVisible();
+});
+
+test("invalid command", async ({ page }) => {
+  await page.goto("http://localhost:8000/");
+  //invalid command brief mode
+  await page.getByPlaceholder("Enter command here!").fill("invalid");
+  await page.getByRole("button", { name: "Submitted Briefly" }).click();
+  await expect(page.getByText("Output: Error: Invalid command")).toBeVisible();
+
+  //invalid command verbose mode
+  await page.getByPlaceholder("Enter command here!").fill("mode verbose");
+  await page.getByRole("button", { name: "Submitted Briefly" }).click();
+  await page.getByPlaceholder("Enter command here!").fill("invalid");
+  await expect(
+    page.getByText("Command: invalid Output: Error: Invalid command")
   ).toBeVisible();
 });
 

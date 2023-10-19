@@ -13,9 +13,7 @@
   border-radius: 30px;
   border: none;
   background: rgba(255, 255, 255, 0.5);
-  max-width: 1200px;
   width: 970px;
-  max-height: 480px;
   height: 480px;
   display: flex;
   flex-direction: column;
@@ -76,7 +74,7 @@ input:hover {
   height: 49px;
   border-radius: 15px;
   border-width: 2px;
-  border-color: #3d3f6c;
+  border-color: #3d3f6c !important;
   padding-left: 30px;
 }
 
@@ -107,7 +105,7 @@ tr:hover {
   background-color: #e0efff;
 }
 
-button {
+.submit-button {
   font-size: 15px;
   font-weight: bolder;
   margin-left: 20px;
@@ -116,7 +114,7 @@ button {
   height: 55px;
   border-radius: 15px;
   border: none;
-  background-color: #3d3f6c;
+  background-color: #3d3f6c !important;
   color: white;
 }
 

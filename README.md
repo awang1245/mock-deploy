@@ -1,5 +1,7 @@
 # Mock-awang283-jyoo45
 
+https://awang1245.github.io/mock-deploy/
+
 ## Project Details:
 
 - Project Name: Mock

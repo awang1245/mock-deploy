@@ -1,6 +1,6 @@
 .repl {
   position: relative;
-  min-height: 200px;
+  min-height: 220px;
 }
 
 .repl-history {
@@ -62,7 +62,7 @@ input:hover {
   font-weight: 700;
   font-style: normal;
   font-size: 18px;
-  margin-left: 195px;
+  margin-left: 200px;
 }
 
 .repl-command-box {

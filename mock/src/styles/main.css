@@ -62,7 +62,7 @@ input:hover {
   font-weight: 700;
   font-style: normal;
   font-size: 18px;
-  margin-left: 210px;
+  margin-left: 205px !important;
 }
 
 .repl-command-box {
@@ -74,7 +74,7 @@ input:hover {
   height: 49px;
   border-radius: 15px;
   border-width: 2px;
-  border-color: #3d3f6c !important;
+  border-color: #3d3f6c;
   padding-left: 30px;
 }
 
